@@ -40,6 +40,7 @@ public class Produto implements Serializable {
 	
 	public Produto() {
 		super();
+		
 	}
 
 
