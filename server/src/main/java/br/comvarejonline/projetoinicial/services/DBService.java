@@ -3,6 +3,7 @@ package br.comvarejonline.projetoinicial.services;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.comvarejonline.projetoinicial.domains.Funcionario;
@@ -20,13 +21,15 @@ public class DBService {
 	@Autowired
 	private ProdutoRepository prodRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	
 	public void instaciaDB() {
 		
-		Funcionario f1 = new Funcionario(null, "Maria eduarda ", "855444777", "duda@teste.com.br", "12345678");
-		Funcionario f2 = new Funcionario(null, "Sara Eunice ", "857546877", "sara@teste.com.br", "12345678");
-		Funcionario f3 = new Funcionario(null, "Dwayne Johson ", "45564777", "john@teste.com.br", "12345678");
+		Funcionario f1 = new Funcionario(null, "Maria eduarda ", "855444777", "duda@teste.com.br", encoder.encode("123456"));
+		Funcionario f2 = new Funcionario(null, "Sara Eunice ", "857546877", "sara@teste.com.br", encoder.encode("123456"));
+		Funcionario f3 = new Funcionario(null, "Dwayne Johson ", "45564777", "john@teste.com.br", encoder.encode("123456"));
 		f1.addPerfil(Perfil.GERENTE);
 		
 		Produto p1 = new Produto(null, "caneta", "aaa456987766514455", 1, 0);
