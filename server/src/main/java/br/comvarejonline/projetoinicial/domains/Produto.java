@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import br.comvarejonline.projetoinicial.dtos.ProdutoDTO;
 import br.comvarejonline.projetoinicial.estoque.entradas.EntradaProduto;
+import br.comvarejonline.projetoinicial.estoque.saidas.SaidaProduto;
 
 @Entity
 public class Produto implements Serializable {
@@ -36,6 +37,8 @@ public class Produto implements Serializable {
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
     private List<EntradaProduto> entradas= new ArrayList<>();
 	
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    private List<SaidaProduto> saidas= new ArrayList<>();
 	
 	
 	public Produto() {
@@ -138,7 +141,13 @@ public class Produto implements Serializable {
 		this.entradas.add(entradaProduto);
 		
 	}
-	
+
+
+	public void adicionarSaida(SaidaProduto saidaProduto) {
+		// TODO Auto-generated method stub
+		this.saidas.add(saidaProduto);
+		
+	}
 	
 	
 	

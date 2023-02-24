@@ -27,6 +27,9 @@ import br.comvarejonline.projetoinicial.dtos.ProdutoDTO;
 import br.comvarejonline.projetoinicial.estoque.entradas.EntradaProduto;
 import br.comvarejonline.projetoinicial.estoque.entradas.EntradaProdutoRequest;
 import br.comvarejonline.projetoinicial.estoque.entradas.EntradaProdutoResponse;
+import br.comvarejonline.projetoinicial.estoque.saidas.SaidaProduto;
+import br.comvarejonline.projetoinicial.estoque.saidas.SaidaProdutoRequest;
+import br.comvarejonline.projetoinicial.estoque.saidas.SaidaProdutoResponse;
 import br.comvarejonline.projetoinicial.repositories.ProdutoRepository;
 import br.comvarejonline.projetoinicial.services.ProdutoService;
 
@@ -87,6 +90,21 @@ public class ProdutoResource {
         produto.get().adicionarEntrada(entradaProduto);
         URI uri=uriBuilder.path("/produtos/{id}/entradas/{idEntrada}").buildAndExpand(Map.of("id",produto.get().getId(),"idEntrada",entradaProduto.getId())).toUri();
         return ResponseEntity.created(uri).body(new EntradaProdutoResponse(entradaProduto));
+    }
+	
+	@PostMapping("/{id}/saidas")
+    @Transactional
+    public ResponseEntity<?> realizarSaida(@RequestBody  SaidaProdutoRequest saida,@PathVariable Long id, UriComponentsBuilder uriBuilder){
+        Optional<Produto> produto= repository.findById(id);
+        if(produto.isEmpty()){
+            Erros error=new Erros("Produto", "Não existe cadastro deste produto");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        SaidaProduto saidaProduto=saida.toModelo(produto.get());
+        manager.persist(saidaProduto);
+        produto.get().adicionarSaida(saidaProduto);
+        URI uri=uriBuilder.path("/produtos/{id}/saidas/{idSaida}").buildAndExpand(Map.of("id",produto.get().getId(),"idSaida",saidaProduto.getId())).toUri();
+        return ResponseEntity.created(uri).body(new SaidaProdutoResponse(saidaProduto));
     }
 	
 }
