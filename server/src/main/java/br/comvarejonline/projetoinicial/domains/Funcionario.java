@@ -1,7 +1,6 @@
 package br.comvarejonline.projetoinicial.domains;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,8 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import br.comvarejonline.projetoinicial.dtos.FuncionarioDTO;
 import br.comvarejonline.projetoinicial.enums.Perfil;
 
 @Entity
@@ -42,22 +40,32 @@ public class Funcionario implements Serializable{
 	protected Set<Integer> perfis = new HashSet<>();
 	
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	protected LocalDate nascimento;
+	
 	
 	public Funcionario() {
 		addPerfil(Perfil.OPERADOR);
 	}
 
-	public Funcionario(Long id, String nome, String cpf, String email, String senha, LocalDate nascimento) {
+	public Funcionario(Long id, String nome, String cpf, String email, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 		this.senha = senha;
-		this.nascimento = nascimento;
+		
 		addPerfil(Perfil.OPERADOR);
+		
+	}
+	
+	public Funcionario(FuncionarioDTO fun) {
+		super();
+		this.id = fun.getId();
+		this.nome = fun.getNome();
+		this.cpf = fun.getCpf();
+		this.email = fun.getEmail();
+		this.senha = fun.getSenha();
+		this.perfis = fun.getPerfis().stream().map(x-> x.getCodigo()).collect(Collectors.toSet());
 		
 	}
 
@@ -101,13 +109,7 @@ public class Funcionario implements Serializable{
 		this.senha = senha;
 	}
 
-	public LocalDate getNascimento() {
-		return nascimento;
-	}
-
-	public void setNascimento(LocalDate nascimento) {
-		this.nascimento = nascimento;
-	}
+	
 
 	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());

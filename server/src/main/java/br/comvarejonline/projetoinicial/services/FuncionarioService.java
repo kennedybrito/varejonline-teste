@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.comvarejonline.projetoinicial.domains.Funcionario;
+import br.comvarejonline.projetoinicial.dtos.FuncionarioDTO;
 import br.comvarejonline.projetoinicial.repositories.FuncionarioRepository;
 
 @Service
@@ -24,6 +25,13 @@ public class FuncionarioService {
 
 	public List<Funcionario> findAll() {
 		return repository.findAll();
+	}
+
+
+	public Funcionario create(FuncionarioDTO objDTO) {
+		objDTO.setId(null);
+		Funcionario newObj = new Funcionario(objDTO);
+		return repository.save(newObj);
 	}
 	
 	

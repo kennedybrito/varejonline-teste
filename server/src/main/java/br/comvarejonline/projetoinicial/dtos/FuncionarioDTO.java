@@ -1,12 +1,9 @@
 package br.comvarejonline.projetoinicial.dtos;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.comvarejonline.projetoinicial.domains.Funcionario;
 import br.comvarejonline.projetoinicial.enums.Perfil;
@@ -21,11 +18,10 @@ public class FuncionarioDTO implements Serializable{
 	protected String senha;
 	protected Set<Integer> perfis = new HashSet<>();
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	protected LocalDate nascimento;
-
+	
 	public FuncionarioDTO() {
 		super();
+		addPerfis(Perfil.OPERADOR);
 	}
 
 	public FuncionarioDTO(Funcionario fun) {
@@ -36,7 +32,7 @@ public class FuncionarioDTO implements Serializable{
 		this.email = fun.getEmail();
 		this.senha = fun.getSenha();
 		this.perfis = fun.getPerfis().stream().map(x-> x.getCodigo()).collect(Collectors.toSet());
-		this.nascimento = fun.getNascimento();
+		
 	}
 
 	public Long getId() {
@@ -87,13 +83,7 @@ public class FuncionarioDTO implements Serializable{
 		this.perfis.add(perfil.getCodigo());
 	}
 
-	public LocalDate getNascimento() {
-		return nascimento;
-	}
 
-	public void setNascimento(LocalDate nascimento) {
-		this.nascimento = nascimento;
-	}
 
 	
 	

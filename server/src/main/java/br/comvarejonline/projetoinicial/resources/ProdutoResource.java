@@ -14,39 +14,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.comvarejonline.projetoinicial.domains.Funcionario;
-import br.comvarejonline.projetoinicial.dtos.FuncionarioDTO;
-import br.comvarejonline.projetoinicial.services.FuncionarioService;
+import br.comvarejonline.projetoinicial.domains.Produto;
+import br.comvarejonline.projetoinicial.dtos.ProdutoDTO;
+import br.comvarejonline.projetoinicial.services.ProdutoService;
 
 @RestController
-@RequestMapping(value = "/funcionarios")
-public class FuncionarioResource {
+@RequestMapping(value = "/produtos")
+public class ProdutoResource {
 	
 	@Autowired
-	private FuncionarioService service;
+	private ProdutoService service;
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<FuncionarioDTO> findById(@PathVariable Long id){
-		Funcionario obj = service.findById(id);
-		return ResponseEntity.ok().body(new FuncionarioDTO(obj));
+	public ResponseEntity<ProdutoDTO> findById(@PathVariable Long id){
+		Produto obj = service.findById(id);
+		return ResponseEntity.ok().body(new ProdutoDTO(obj));
 		
 	}
-
-	
 	@GetMapping
-	public ResponseEntity<List<FuncionarioDTO>> findAll(){
-		List<Funcionario> list = service.findAll();
-		List<FuncionarioDTO> listDTO = list.stream().map(obj -> new FuncionarioDTO(obj)).collect(Collectors.toList());
+	public ResponseEntity<List<ProdutoDTO>> findAll(){
+		List<Produto> list = service.findAll();
+		List<ProdutoDTO> listDTO = list.stream().map(obj -> new ProdutoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	
+	
+	
 	@PostMapping
-	public ResponseEntity<FuncionarioDTO> create(@RequestBody FuncionarioDTO objDTO){
-		Funcionario newObj = service.create(objDTO);
+	public ResponseEntity<ProdutoDTO> create(@RequestBody ProdutoDTO objDTO){
+		Produto newObj = service.create(objDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 		
 	}
 	
-	
 }
+
+	
+
+
