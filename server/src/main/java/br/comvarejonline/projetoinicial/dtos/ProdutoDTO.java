@@ -27,6 +27,7 @@ public class ProdutoDTO implements Serializable{
 		this.quantminima = prod.getQuantminima();
 		this.saldoInicial = prod.getSaldoInicial();
 		
+		
 	}
 
 	public Long getId() {

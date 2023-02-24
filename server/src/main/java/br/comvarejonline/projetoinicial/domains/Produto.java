@@ -1,15 +1,20 @@
 package br.comvarejonline.projetoinicial.domains;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import br.comvarejonline.projetoinicial.dtos.ProdutoDTO;
+import br.comvarejonline.projetoinicial.estoque.entradas.EntradaProduto;
 
 @Entity
 public class Produto implements Serializable {
@@ -28,6 +33,10 @@ public class Produto implements Serializable {
 	private Integer quantminima;
 	private Integer saldoInicial;
 	
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    private List<EntradaProduto> entradas= new ArrayList<>();
+	
+	
 	
 	public Produto() {
 		super();
@@ -41,6 +50,7 @@ public class Produto implements Serializable {
 		this.codBarras = codBarras;
 		this.quantminima = quantminima;
 		this.saldoInicial = saldoInicial;
+		
 	}
 	
 	public Produto(ProdutoDTO prod) {
@@ -120,6 +130,12 @@ public class Produto implements Serializable {
 			return false;
 		Produto other = (Produto) obj;
 		return Objects.equals(codBarras, other.codBarras) && Objects.equals(nome, other.nome);
+	}
+
+
+	public void adicionarEntrada(EntradaProduto entradaProduto) {
+		this.entradas.add(entradaProduto);
+		
 	}
 	
 	
