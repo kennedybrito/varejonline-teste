@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.comvarejonline.projetoinicial.domains.Funcionario;
+import br.comvarejonline.projetoinicial.dtos.FuncionarioDTO;
 import br.comvarejonline.projetoinicial.services.FuncionarioService;
 
 @RestController
@@ -18,9 +19,9 @@ public class FuncionarioResource {
 	private FuncionarioService service;
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<Funcionario> findById(@PathVariable Long id){
+	public ResponseEntity<FuncionarioDTO> findById(@PathVariable Long id){
 		Funcionario obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().body(new FuncionarioDTO(obj));
 		
 	}
 
