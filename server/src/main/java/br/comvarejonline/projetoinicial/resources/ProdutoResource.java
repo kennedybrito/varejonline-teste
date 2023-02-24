@@ -59,6 +59,14 @@ public class ProdutoResource {
 		return ResponseEntity.ok().body(new ProdutoDTO(obj));
 		
 	}
+	//PEGA A QUANTIDADE DE PRODUTOS DISPONIVEIS POR ID
+	@GetMapping(value="/quantidade/{id}")
+	public ResponseEntity<Integer> findById2(@PathVariable Long id){
+		 Integer quantidadeDisponivel= repository.findByQuantidadeProduto(id);
+		return ResponseEntity.ok().body(quantidadeDisponivel);
+		
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<ProdutoDTO>> findAll(){
 		List<Produto> list = service.findAll();
@@ -99,6 +107,11 @@ public class ProdutoResource {
         if(produto.isEmpty()){
             Erros error=new Erros("Produto", "Não existe cadastro deste produto");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Integer quantidadeDisponivel= repository.findByQuantidadeProduto(id);
+        if (saida.getQuantidade()>quantidadeDisponivel){
+            Erros error=new Erros("quantidade","Quantidade deve ser menor ou igual a "+quantidadeDisponivel);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
         SaidaProduto saidaProduto=saida.toModelo(produto.get());
         manager.persist(saidaProduto);
