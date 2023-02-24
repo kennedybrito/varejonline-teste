@@ -1,5 +1,6 @@
 package br.comvarejonline.projetoinicial.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class FuncionarioService {
 	public Funcionario findById(Long id) {
 		Optional<Funcionario> obj = repository.findById(id);
 		return obj.orElse(null);
+	}
+
+
+	public List<Funcionario> findAll() {
+		return repository.findAll();
 	}
 	
 	

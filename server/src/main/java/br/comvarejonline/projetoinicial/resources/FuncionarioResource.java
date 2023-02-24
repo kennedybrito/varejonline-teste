@@ -1,5 +1,8 @@
 package br.comvarejonline.projetoinicial.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,4 +28,11 @@ public class FuncionarioResource {
 		
 	}
 
+	
+	@GetMapping
+	public ResponseEntity<List<FuncionarioDTO>> findAll(){
+		List<Funcionario> list = service.findAll();
+		List<FuncionarioDTO> listDTO = list.stream().map(obj -> new FuncionarioDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
 }
