@@ -28,6 +28,7 @@ public class Funcionario implements Serializable{
 	
 	protected String nome;
 	
+	
 	@Column(unique = true)
 	protected String cpf;
 	@Column(unique = true)

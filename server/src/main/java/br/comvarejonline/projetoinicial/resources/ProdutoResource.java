@@ -62,11 +62,6 @@ public class ProdutoResource {
 		List<ProdutoDTO> listDTO = list.stream().map(obj -> new ProdutoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	@GetMapping(value = "/entradas")
-	public ResponseEntity<List<Produto>> findAll2(){
-		List<Produto> list = repository.findAll();
-		return ResponseEntity.ok().body(list);
-	}
 	
 	
 	
