@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class FuncionarioResource {
 	@Autowired
 	private FuncionarioService service;
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<FuncionarioDTO> findById(@PathVariable Long id){
 		Funcionario obj = service.findById(id);
@@ -32,7 +34,7 @@ public class FuncionarioResource {
 		
 	}
 
-	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<FuncionarioDTO>> findAll(){
 		List<Funcionario> list = service.findAll();
@@ -40,6 +42,7 @@ public class FuncionarioResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<FuncionarioDTO> create(@RequestBody FuncionarioDTO objDTO){
 		Funcionario newObj = service.create(objDTO);

@@ -3,7 +3,7 @@ package br.comvarejonline.projetoinicial.enums;
 
 public enum Perfil {
 
-	GERENTE(0, "ROLE_ADMIN"), OPERADOR(1, "ROLE_CLIENTE");
+	GERENTE(0, "ROLE_ADMIN"), OPERADOR(1, "ROLE_OPERADOR");
 	
 	private Integer codigo;
 	private String descricao;

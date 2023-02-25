@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,7 +53,7 @@ public class ProdutoResource {
        
     }
 	
-	
+	@PreAuthorize("hasAnyRole('OPERADOR')")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<ProdutoDTO> findById(@PathVariable Long id){
 		Produto obj = service.findById(id);
@@ -60,13 +61,14 @@ public class ProdutoResource {
 		
 	}
 	//PEGA A QUANTIDADE DE PRODUTOS DISPONIVEIS POR ID
+	@PreAuthorize("hasAnyRole('OPERADOR')")
 	@GetMapping(value="/quantidade/{id}")
 	public ResponseEntity<Integer> findById2(@PathVariable Long id){
 		 Integer quantidadeDisponivel= repository.findByQuantidadeProduto(id);
 		return ResponseEntity.ok().body(quantidadeDisponivel);
 		
 	}
-	
+	@PreAuthorize("hasAnyRole('OPERADOR')")
 	@GetMapping
 	public ResponseEntity<List<ProdutoDTO>> findAll(){
 		List<Produto> list = service.findAll();
@@ -76,7 +78,7 @@ public class ProdutoResource {
 	
 	
 	
-	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<ProdutoDTO> create(@RequestBody ProdutoDTO objDTO){
 		Produto newObj = service.create(objDTO);
@@ -85,6 +87,7 @@ public class ProdutoResource {
 		
 	}
 	
+	@PreAuthorize("hasAnyRole('OPERADOR')")
 	@PostMapping("/{id}/entradas")
     @Transactional
     public ResponseEntity<?> realizarEntrada(@RequestBody  EntradaProdutoRequest entrada,@PathVariable Long id, UriComponentsBuilder uriBuilder){
@@ -100,6 +103,7 @@ public class ProdutoResource {
         return ResponseEntity.created(uri).body(new EntradaProdutoResponse(entradaProduto));
     }
 	
+	@PreAuthorize("hasAnyRole('OPERADOR')")
 	@PostMapping("/{id}/saidas")
     @Transactional
     public ResponseEntity<?> realizarSaida(@RequestBody  SaidaProdutoRequest saida,@PathVariable Long id, UriComponentsBuilder uriBuilder){

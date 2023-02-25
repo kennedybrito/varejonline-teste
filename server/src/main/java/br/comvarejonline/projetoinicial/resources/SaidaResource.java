@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +36,14 @@ public class SaidaResource {
        
     }
 	
-	
+	@PreAuthorize("hasAnyRole('OPERADOR')")
 	@GetMapping
 	public ResponseEntity<List<SaidaProduto>> findAll2(){
 		List<SaidaProduto> list = repository.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@PreAuthorize("hasAnyRole('OPERADOR')")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<SaidaDTO> findById(@PathVariable Long id){
 		SaidaProduto obj = service.findById(id);
